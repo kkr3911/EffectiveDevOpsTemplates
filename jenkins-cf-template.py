@@ -37,7 +37,7 @@ GithubAccount = "kkr3911"
 GithubAnsibleURL = "https://github.com/{}/ansible".format(GithubAccount)
 
 AnsiblePullCmd = \
-    "/usr/local/bin/ansible-pull -U {} {}.yml".format(
+    "/usr/local/bin/ansible-pull -U {} {}.yml -i localhost".format(
         GithubAnsibleURL,
         ApplicationName
      )
@@ -76,6 +76,8 @@ t.add_resource(ec2.SecurityGroup(
 
 ud = Base64(Join('\n', [
     "#!/bin/bash",
+    "yum remove java-1.7.0-openjdk -y",
+    "yum install java-1.8.0-openjdk -y",
     "yum update",
     "yum install --enablerepo=epel -y git",
     "pip install ansible",
