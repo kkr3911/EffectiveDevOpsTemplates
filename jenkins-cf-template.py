@@ -76,8 +76,6 @@ t.add_resource(ec2.SecurityGroup(
 
 ud = Base64(Join('\n', [
     "#!/bin/bash",
-    "yum remove java-1.7.0-openjdk -y",
-    "yum install java-1.8.0-openjdk -y",
     "yum update",
     "yum install --enablerepo=epel -y git",
     "pip install ansible",
@@ -106,7 +104,7 @@ t.add_resource(InstanceProfile(
 
 t.add_resource(ec2.Instance(
     "instance",
-    ImageId="ami-0e1e385b0a934254a",
+    ImageId="ami-0e4a253fb5f082688",
     InstanceType="t2.micro",
     SecurityGroups=[Ref("SecurityGroup")],
     KeyName=Ref("KeyPair"),
