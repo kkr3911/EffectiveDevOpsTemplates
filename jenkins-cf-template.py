@@ -37,7 +37,7 @@ GithubAccount = "kkr3911"
 GithubAnsibleURL = "https://github.com/{}/ansible".format(GithubAccount)
 
 AnsiblePullCmd = \
-    "/usr/local/bin/ansible-pull -U {} {}.yml".format(
+    "/usr/local/bin/ansible-pull -U {} {}.yml -i localhost".format(
         GithubAnsibleURL,
         ApplicationName
      )
@@ -98,6 +98,21 @@ t.add_resource(Role(
     )
 ))
 
+t.add_resource(IAMPolicy(
+	"Policy",
+	PolicyName="AllowCodePipeline",
+	PolicyDocument=Policy(
+		Statement=[
+			Statement(
+				Effect=Allow,
+				Action=[Action("codepipeline", "*")],
+				Resource=["*"]
+			)
+		]
+	),
+	Roles=[Ref("Role")]
+))
+
 t.add_resource(InstanceProfile(
     "InstanceProfile",
     Path="/",
@@ -106,7 +121,7 @@ t.add_resource(InstanceProfile(
 
 t.add_resource(ec2.Instance(
     "instance",
-    ImageId="ami-0e4a253fb5f082688",
+    ImageId="ami-0e1e385b0a934254a",
     InstanceType="t2.micro",
     SecurityGroups=[Ref("SecurityGroup")],
     KeyName=Ref("KeyPair"),
@@ -124,9 +139,9 @@ t.add_output(Output(
     "WebUrl",
     Description="Application endpoint",
     Value=Join("", [
-                    "http://", GetAtt("instance", "PublicDnsName"),
-                    ":", ApplicationPort
-                    ]),
+    	"http://", GetAtt("instance", "PublicDnsName"),
+        ":", ApplicationPort
+    ]),
 ))
 
 print t.to_json()
