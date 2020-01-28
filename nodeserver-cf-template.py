@@ -207,7 +207,7 @@ t.add_resource(IAMPolicy(
 t.add_resource(LaunchConfiguration(
     "LaunchConfiguration",
     UserData=ud,
-    ImageId="ami-0e1e385b0a934254a",
+    ImageId="ami-0e4a253fb5f082688",
     KeyName=Ref("KeyPair"),
     SecurityGroups=[Ref("SecurityGroup")],
     InstanceType=Ref("InstanceType"),
