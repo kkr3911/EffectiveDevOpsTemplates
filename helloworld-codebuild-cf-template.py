@@ -50,7 +50,8 @@ t.add_resource(Role(
 
 environment = Environment(
     ComputeType='BUILD_GENERAL1_SMALL',
-    Image='aws/codebuild/standard:2.0',
+#    Image='aws/codebuild/standard:2.0',
+	Image='aws/codebuild/docker:1.12.1',
     Type='LINUX_CONTAINER',
     EnvironmentVariables=[
         {'Name': 'REPOSITORY_NAME', 'Value': 'helloworld'},
